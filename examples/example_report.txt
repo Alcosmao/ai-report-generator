@@ -1,0 +1,15 @@
+AI REPORT
+============================================================
+
+Summary:
+Customer reported a missing invoice attachment for invoice INV-1044.
+
+Issue:
+The invoice attachment was not found in the email.
+
+Actions taken:
+- Reviewed the note and identified the missing attachment issue.
+- Recorded the invoice number INV-1044.
+
+Next steps:
+- Request the customer to resend the invoice file.

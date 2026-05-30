@@ -1,0 +1,4 @@
+Customer email received about missing invoice attachment.
+Invoice number: INV-1044.
+Attachment was not found in the email.
+Need to request the customer to resend the invoice file.

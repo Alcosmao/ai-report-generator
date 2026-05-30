@@ -1,0 +1,310 @@
+# AI Report Generator
+
+AI Report Generator is a beginner-friendly Python project that uses the OpenAI API to turn a raw text note into a structured report.
+
+The script reads a note from a local TXT file, sends it to OpenAI, receives structured JSON data, validates the result, and saves the final output as both JSON and TXT files.
+
+This project was built as part of my learning path toward AI Automation, Junior AI Solutions, Copilot Studio, Power Platform, and Azure AI-related roles.
+
+---
+
+## Project overview
+
+This project shows a simple AI automation workflow:
+
+```text
+raw note
+→ OpenAI API
+→ structured JSON output
+→ validation
+→ JSON report
+→ TXT report
+→ logs
+```
+
+The main goal is to practise how Python can be used to automate a small workflow with AI.
+
+The project uses a text note as input, sends it to the OpenAI API, receives a structured response, checks if the response has the correct format, and then saves the final reports.
+
+---
+
+## Features
+
+* Reads input from a TXT file
+* Loads the OpenAI API key from a local `.env` file
+* Sends the input note to the OpenAI API
+* Requests structured JSON output from the AI model
+* Parses the AI response into Python data
+* Validates the AI output before saving it
+* Saves a JSON report
+* Saves a human-readable TXT report
+* Writes basic logs
+* Handles common API errors
+
+---
+
+## Project flow
+
+```text
+notes/raw_note.txt
+→ read input file
+→ load API key
+→ call OpenAI API
+→ receive structured JSON
+→ parse JSON
+→ validate data
+→ save report.json
+→ save report.txt
+→ write logs
+```
+
+---
+
+## Output structure
+
+The AI response should return these fields:
+
+```json
+{
+    "summary": "Short summary of the note",
+    "issue": "Main issue found in the note",
+    "actions_taken": [
+        "Action already taken"
+    ],
+    "next_steps": [
+        "Recommended next step"
+    ]
+}
+```
+
+The script checks that:
+
+* `summary` exists and is text
+* `issue` exists and is text
+* `actions_taken` exists and is a list
+* `next_steps` exists and is a list
+* all items inside `actions_taken` are text
+* all items inside `next_steps` are text
+
+---
+
+## Technologies used
+
+* Python
+* OpenAI API
+* OpenAI Python SDK
+* python-dotenv
+* JSON
+* pathlib
+* try/except error handling
+* file handling
+
+---
+
+## Project structure
+
+```text
+AI_Report_Generator/
+│
+├── main.py
+├── README.md
+├── requirements.txt
+├── .gitignore
+├── .env
+│
+├── notes/
+│   └── raw_note.txt
+│
+├── reports/
+│   ├── report.json
+│   └── report.txt
+│
+└── logs/
+    └── app_log.txt
+```
+
+---
+
+## How to run
+
+### 1. Install required packages
+
+Run this command in the project folder:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+The project uses:
+
+```text
+openai
+python-dotenv
+```
+
+---
+
+### 2. Create a `.env` file
+
+Create a file called `.env` in the main project folder.
+
+Add your OpenAI API key:
+
+```text
+OPENAI_API_KEY=your_api_key_here
+```
+
+Do not share this file publicly.
+
+---
+
+### 3. Add an input note
+
+Create or edit this file:
+
+```text
+notes/raw_note.txt
+```
+
+Example input:
+
+```text
+Customer email received about missing invoice attachment.
+Invoice number: INV-1044.
+Attachment was not found in the email.
+Need to request the customer to resend the invoice file.
+```
+
+---
+
+### 4. Run the project
+
+Run:
+
+```bash
+python main.py
+```
+
+---
+
+## Generated files
+
+After the script runs successfully, it creates:
+
+```text
+reports/report.json
+reports/report.txt
+logs/app_log.txt
+```
+
+---
+
+## Example JSON output
+
+```json
+{
+    "summary": "Customer reported a missing invoice attachment for invoice INV-1044.",
+    "issue": "The invoice attachment was not found in the email.",
+    "actions_taken": [
+        "Reviewed the note and identified the missing attachment issue."
+    ],
+    "next_steps": [
+        "Request the customer to resend the invoice file."
+    ]
+}
+```
+
+---
+
+## Example TXT output
+
+```text
+AI REPORT
+============================================================
+
+Summary:
+Customer reported a missing invoice attachment for invoice INV-1044.
+
+Issue:
+The invoice attachment was not found in the email.
+
+Actions taken:
+- Reviewed the note and identified the missing attachment issue.
+
+Next steps:
+- Request the customer to resend the invoice file.
+```
+
+---
+
+## Error handling
+
+The script handles several common problems:
+
+* missing API key
+* missing input file
+* invalid JSON response
+* failed validation
+* authentication error
+* rate limit or quota error
+* API connection error
+* bad request error
+* API status error
+
+Errors are shown in the terminal and also written to the log file.
+
+---
+
+## Security notes
+
+The OpenAI API key is stored in a local `.env` file.
+
+The `.env` file should not be committed to GitHub.
+
+Recommended `.gitignore` entries:
+
+```text
+.env
+__pycache__/
+*.pyc
+logs/
+reports/
+```
+
+The `logs/` and `reports/` folders are local output folders. They are generated by the script and do not need to be uploaded to GitHub.
+
+---
+
+## What I learned
+
+This project helped me practise:
+
+* writing Python functions
+* using `main()` as the program flow
+* reading text files
+* loading API keys from `.env`
+* calling the OpenAI API
+* working with structured JSON output
+* parsing JSON with Python
+* validating AI-generated data
+* saving JSON and TXT files
+* writing logs
+* using `try/except` for error handling
+* preparing a small project for a portfolio
+
+---
+
+## Portfolio value
+
+This project demonstrates a basic but realistic AI automation workflow:
+
+```text
+input file
+→ AI processing
+→ structured data
+→ validation
+→ output files
+→ logs
+```
+
+This type of workflow is useful in AI automation, business operations, reporting tools, and junior AI solutions projects.
