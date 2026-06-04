@@ -1,17 +1,4 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from main import (
-    load_api_key,
-    call_openai_structured,
-    parse_ai_output,
-    validate_report,
-    setup_folders,
-    save_json,
-    create_txt_report,
-    save_txt,
-    JSON_OUTPUT_FILE,
-    TXT_OUTPUT_FILE,
-)
 from openai import (
     AuthenticationError,
     RateLimitError,
@@ -20,24 +7,24 @@ from openai import (
     BadRequestError,
 )
 
+from app.models import NoteRequest, NoteResponse
+from app.services import (
+    load_api_key,
+    call_openai_structured,
+    parse_ai_output,
+    validate_report,
+)
+from app.file_utils import (
+    setup_folders,
+    save_json,
+    create_txt_report,
+    save_txt,
+    JSON_OUTPUT_FILE,
+    TXT_OUTPUT_FILE,
+)
+
+
 app = FastAPI()
-
-
-class NoteRequest(BaseModel):
-    raw_note: str
-
-
-class ReportData(BaseModel):
-    summary: str
-    issue: str
-    actions_taken: list[str]
-    next_steps: list[str]
-
-
-class NoteResponse(BaseModel):
-    message: str
-    input_note: str
-    report: ReportData
 
 
 @app.get("/")
@@ -93,7 +80,7 @@ def format_note(request: NoteRequest):
                     "wrong_type_fields": wrong_types
                 }
             )
-        
+
         setup_folders()
 
         save_json(report_data, JSON_OUTPUT_FILE)
@@ -106,13 +93,16 @@ def format_note(request: NoteRequest):
             "input_note": request.raw_note,
             "report": report_data
         }
+
     except HTTPException:
         raise
+
     except AuthenticationError:
         raise HTTPException(
             status_code=500,
             detail="OpenAI authentication failed. Check the API key."
         )
+
     except RateLimitError:
         raise HTTPException(
             status_code=429,
@@ -130,7 +120,7 @@ def format_note(request: NoteRequest):
             status_code=500,
             detail="OpenAI request configuration error."
         )
-    
+
     except APIStatusError as error:
         raise HTTPException(
             status_code=502,
@@ -139,7 +129,7 @@ def format_note(request: NoteRequest):
                 "openai_status_code": error.status_code
             }
         )
-    
+
     except Exception:
         raise HTTPException(
             status_code=500,
