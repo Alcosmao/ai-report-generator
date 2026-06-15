@@ -2,12 +2,13 @@
 
 AI Technical Note Formatter API is a Python and FastAPI project that uses the OpenAI API to convert raw notes into structured reports.
 
-The project can be used in two ways:
+The project can be used in three ways:
 
 1. As a FastAPI API service using `POST /format-note`
 2. As a local CLI script using `python cli.py`
+3. In Docker using `docker compose up --build`
 
-The application accepts a raw business or technical note, sends it to OpenAI, receives structured JSON output, validates the result, returns the response through the API, and saves the final report as both JSON and TXT files.
+The application accepts a raw business or technical note, sends it to OpenAI, receives structured JSON output, validates the result, returns the response through the API, and saves timestamped report files as both JSON and TXT.
 
 This project was built as part of my learning path toward AI Automation, Junior AI Solutions, Copilot Studio, Power Platform, and Azure AI-related roles.
 
@@ -24,8 +25,8 @@ raw note
 → structured JSON output
 → validation
 → API response
-→ JSON report
-→ TXT report
+→ timestamped JSON report
+→ timestamped TXT report
 ```
 
 The main goal of the project is to practise how Python, FastAPI, and the OpenAI API can be used to build a small AI-powered backend service.
@@ -56,10 +57,12 @@ The project is based on realistic notes such as:
 * Manual validation of AI-generated reports
 * API error handling with HTTP status codes
 * Specific OpenAI error handling
-* Saves report as JSON
-* Saves report as human-readable TXT
+* Saves timestamped report files as JSON and human-readable TXT
+* Report history (each run creates a new file, nothing is overwritten)
 * CLI runner version
 * Swagger UI documentation
+* pytest test suite with mocked OpenAI (26 tests)
+* Docker support (`Dockerfile` + `docker-compose.yml`)
 * Example request, response, and report files
 * Portfolio-ready project structure
 
@@ -76,7 +79,7 @@ Client / Swagger
 → Python parses AI output
 → Python validates report fields
 → API returns structured JSON response
-→ project saves report.json and report.txt
+→ project saves report_YYYYMMDD_HHMMSS.json and .txt
 ```
 
 ---
@@ -91,8 +94,7 @@ notes/raw_note.txt
 → receive structured JSON
 → parse JSON
 → validate data
-→ save report.json
-→ save report.txt
+→ save timestamped report JSON and TXT
 → write logs
 ```
 
@@ -209,6 +211,8 @@ The project checks that:
 * OpenAI Python SDK
 * Pydantic
 * python-dotenv
+* pytest
+* Docker
 * JSON
 * pathlib
 * Swagger UI
@@ -291,13 +295,16 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-Required packages:
+Required packages (pinned in `requirements.txt`):
 
 ```text
 fastapi
 uvicorn
 openai
+pydantic
 python-dotenv
+pytest
+httpx
 ```
 
 ---
@@ -534,11 +541,14 @@ __pycache__/
 logs/
 reports/
 .venv/
+.pytest_cache/
 ```
 
 The `logs/` and `reports/` folders are local output folders. They may contain generated or sensitive data and should usually stay out of GitHub.
 
 The `examples/` folder should be committed because it contains safe demo data.
+
+The OpenAI API key is injected at Docker run time from `.env` and is never copied into the Docker image.
 
 ---
 
@@ -558,9 +568,11 @@ This project helped me practise:
 * validating AI-generated data
 * handling API errors with HTTP status codes
 * handling OpenAI-specific errors
-* saving JSON and TXT output files
+* saving timestamped JSON and TXT output files
 * separating code into modules
 * creating a CLI runner
+* writing pytest tests with a mocked external API
+* containerizing the app with Docker
 * preparing a project for GitHub portfolio
 
 ---
@@ -575,7 +587,7 @@ API request
 → structured data
 → validation
 → JSON response
-→ saved reports
+→ saved timestamped reports
 ```
 
 It shows how a Python script can be upgraded into a small API service.
@@ -596,8 +608,8 @@ This type of workflow is useful in:
 
 Possible future improvements:
 
+* Add GitHub Actions CI
 * Add frontend form
 * Add authentication
 * Add database storage
-* Add deployment instructions
 * Add RAG-based document assistant functionality in a separate project
