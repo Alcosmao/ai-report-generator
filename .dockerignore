@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.git/
+.gitignore
+.env
+reports/
+logs/
+scratch.txt
+dev_notes.md
+tests/
+README.md

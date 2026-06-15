@@ -254,6 +254,9 @@ AI_Report_Generator/
 ├── README.md
 ├── requirements.txt
 ├── pytest.ini
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
 ├── .gitignore
 └── .env
 ```
@@ -344,6 +347,35 @@ In Swagger UI:
 3. Paste JSON input
 4. Click `Execute`
 5. Check the JSON response
+
+---
+
+## How to run with Docker
+
+The project is containerized, so it can run anywhere with a single command, without installing Python or the dependencies locally.
+
+Build and start the container:
+
+```bash
+docker compose up --build
+```
+
+Open Swagger UI:
+
+```text
+http://localhost:8000/docs
+```
+
+Stop and clean up:
+
+```bash
+docker compose down
+```
+
+Notes:
+
+* The OpenAI API key is read from the local `.env` file (it is never baked into the image).
+* The `reports/` and `logs/` folders are mounted as volumes, so generated files appear on your machine too.
 
 ---
 
@@ -561,7 +593,6 @@ This type of workflow is useful in:
 Possible future improvements:
 
 * Add timestamped report filenames
-* Add Docker support
 * Add frontend form
 * Add authentication
 * Add database storage
