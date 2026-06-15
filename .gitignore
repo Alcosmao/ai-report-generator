@@ -4,4 +4,6 @@ __pycache__/
 logs/
 reports/
 .venv/
-interview_questions.txt
+.pytest_cache/
+scratch.txt
+dev_notes.md

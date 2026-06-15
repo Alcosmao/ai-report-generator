@@ -244,9 +244,16 @@ AI_Report_Generator/
 ├── logs/
 │   └── app_log.txt
 │
+├── tests/
+│   ├── conftest.py        # Shared fixtures (sample report data)
+│   ├── test_services.py   # Parsing and validation tests
+│   ├── test_file_utils.py # Report formatting and file tests
+│   └── test_api.py        # FastAPI endpoint tests (mocked OpenAI)
+│
 ├── cli.py
 ├── README.md
 ├── requirements.txt
+├── pytest.ini
 ├── .gitignore
 └── .env
 ```
@@ -370,6 +377,26 @@ reports/report.json
 reports/report.txt
 logs/app_log.txt
 ```
+
+---
+
+## Tests
+
+The project uses `pytest` with a mocked OpenAI API, so tests run fully offline and never call the real API or write to the real `reports/` folder.
+
+The test tools (`pytest`, `httpx`) are already included in `requirements.txt`.
+
+Run the test suite:
+
+```bash
+python -m pytest
+```
+
+What is covered:
+
+* `tests/test_services.py` - AI output parsing and report validation logic
+* `tests/test_file_utils.py` - TXT report formatting and file saving
+* `tests/test_api.py` - FastAPI endpoints with a mocked OpenAI call, including success and error responses (400, 422, 500)
 
 ---
 
@@ -534,7 +561,6 @@ This type of workflow is useful in:
 Possible future improvements:
 
 * Add timestamped report filenames
-* Add automated tests
 * Add Docker support
 * Add frontend form
 * Add authentication
