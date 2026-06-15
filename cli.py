@@ -21,9 +21,8 @@ from app.file_utils import (
     create_txt_report,
     save_txt,
     INPUT_FILE,
-    JSON_OUTPUT_FILE,
-    TXT_OUTPUT_FILE,
     LOG_FILE,
+    build_report_paths,
 )
 
 
@@ -123,19 +122,21 @@ def main():
     print("Validation passed")
     write_log("Validation passed", LOG_FILE)
 
-    save_json(report_data, JSON_OUTPUT_FILE)
+    json_path, txt_path = build_report_paths()
+
+    save_json(report_data, json_path)
     print("JSON report saved")
 
     txt_report = create_txt_report(report_data)
-    save_txt(txt_report, TXT_OUTPUT_FILE)
+    save_txt(txt_report, txt_path)
     print("TXT report saved")
 
     write_log("Reports saved successfully", LOG_FILE)
 
     print("-----------------------------")
     print("Reports created successfully")
-    print(f"JSON report: {JSON_OUTPUT_FILE}")
-    print(f"TXT report: {TXT_OUTPUT_FILE}")
+    print(f"JSON report: {json_path}")
+    print(f"TXT report: {txt_path}")
     print("-----------------------------")
     print("Summary:")
     print(report_data["summary"])

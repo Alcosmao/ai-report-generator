@@ -238,8 +238,8 @@ AI_Report_Generator/
 │   └── raw_note.txt
 │
 ├── reports/
-│   ├── report.json
-│   └── report.txt
+│   ├── report_YYYYMMDD_HHMMSS.json
+│   └── report_YYYYMMDD_HHMMSS.txt
 │
 ├── logs/
 │   └── app_log.txt
@@ -402,13 +402,15 @@ Run:
 python cli.py
 ```
 
-After successful execution, the project creates:
+After successful execution, the project creates timestamped report files, for example:
 
 ```text
-reports/report.json
-reports/report.txt
+reports/report_20260615_163512.json
+reports/report_20260615_163512.txt
 logs/app_log.txt
 ```
+
+Each run creates a new pair of files (the timestamp is `YYYYMMDD_HHMMSS`), so previous reports are never overwritten.
 
 ---
 
@@ -434,17 +436,19 @@ What is covered:
 
 ## Generated files
 
-The API and CLI versions can generate:
+The API and CLI versions can generate timestamped files:
 
 ```text
-reports/report.json
-reports/report.txt
+reports/report_YYYYMMDD_HHMMSS.json
+reports/report_YYYYMMDD_HHMMSS.txt
 logs/app_log.txt
 ```
 
-`report.json` is machine-readable output.
+The `.json` file is machine-readable output.
 
-`report.txt` is human-readable output.
+The `.txt` file is human-readable output.
+
+Each run uses the current date and time in the filename, so reports are kept as a history instead of being overwritten.
 
 ---
 
@@ -592,7 +596,6 @@ This type of workflow is useful in:
 
 Possible future improvements:
 
-* Add timestamped report filenames
 * Add frontend form
 * Add authentication
 * Add database storage

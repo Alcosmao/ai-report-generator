@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from datetime import datetime
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,3 +70,12 @@ def create_txt_report(report_data):
 
 def save_txt(text, file_path=TXT_OUTPUT_FILE):
     file_path.write_text(text, encoding="utf-8")
+
+
+def build_report_paths():
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    json_path = REPORTS_DIR / f"report_{timestamp}.json"
+    txt_path = REPORTS_DIR / f"report_{timestamp}.txt"
+    return json_path, txt_path
+
+    

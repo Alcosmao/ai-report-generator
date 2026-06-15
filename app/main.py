@@ -19,8 +19,7 @@ from app.file_utils import (
     save_json,
     create_txt_report,
     save_txt,
-    JSON_OUTPUT_FILE,
-    TXT_OUTPUT_FILE,
+    build_report_paths,
 )
 
 
@@ -83,10 +82,12 @@ def format_note(request: NoteRequest):
 
         setup_folders()
 
-        save_json(report_data, JSON_OUTPUT_FILE)
+        json_path, txt_path = build_report_paths()
+
+        save_json(report_data, json_path)
 
         txt_report = create_txt_report(report_data)
-        save_txt(txt_report, TXT_OUTPUT_FILE)
+        save_txt(txt_report, txt_path)
 
         return {
             "message": "AI report created successfully",
